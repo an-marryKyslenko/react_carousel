@@ -32,7 +32,13 @@ function App() {
   });
 
   function handleParameters(e: ChangeEvent<HTMLInputElement>) {
-    setParameters(prev => ({ ...prev, [e.target.id]: parseInt(e.target.value) }));
+    const field = e.target.name;
+
+    setParameters(prev => ({
+      ...prev,
+      [field]:
+        field === 'infinite' ? e.target.checked : parseInt(e.target.value),
+    }));
   }
 
   return (
@@ -49,41 +55,55 @@ function App() {
         animationDuration={parameters.animationDuration}
       />
 
-      <div>
-        <label htmlFor="itemWidth">
-          Image Width
+      <div className='parameters'>
+        <label htmlFor="itemId">
+          Image size
           <input
             type="number"
-            placeholder="itemWidth"
-            id="itemWidth"
+            id="itemId"
+            name="itemWidth"
             onChange={handleParameters}
           />
         </label>
-        <input
-          type="number"
-          placeholder="frameSize"
-          id="frameSize"
-          onChange={handleParameters}
-        />
-        <input
-          type="number"
-          placeholder="step"
-          id="step"
-          onChange={handleParameters}
-        />
-        <input
-          type="text"
-          placeholder="animationDuration"
-          id="animationDuration"
-          onChange={handleParameters}
-        />
+
+        <label htmlFor="stepId">
+          Step
+          <input
+            type="number"
+            id="stepId"
+            name="step"
+            onChange={handleParameters}
+          />
+        </label>
+
+        <label htmlFor="frameId">
+          Frame Size
+          <input
+            type="number"
+            id="frameId"
+            name="frameSize"
+            onChange={handleParameters}
+          />
+        </label>
+
+        <label>
+          Animation dureation
+          <input
+            type="number"
+            name="animationDuration"
+            onChange={handleParameters}
+          />
+        </label>
+
+      <label>
+        Infinite
         <input
           type="checkbox"
           name="infinite"
-          id="infinite"
           checked={parameters.infinite}
           onChange={handleParameters}
         />
+      </label>
       </div>
     </div>
   );

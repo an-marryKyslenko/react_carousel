@@ -33,7 +33,7 @@ const Carousel: React.FC<Props> = ({
     setCurrentIndex(prev =>
       infinite
         ? (prev + step) % images.length
-        : images.length - prev <= step
+        : prev + step >= images.length
           ? prev
           : prev + step,
     );
@@ -54,20 +54,12 @@ const Carousel: React.FC<Props> = ({
         }}
       >
         {images.map(imagePath => (
-          <li
-            key={imagePath}
-            style={{
-              width: itemWidth + 'px',
-              height: itemWidth + 'px',
-            }}
-          >
+          <li key={imagePath}>
             <img
+              width={itemWidth}
               src={imagePath}
-              alt="image "
-              style={{
-                width: itemWidth + 'px',
-                height: itemWidth + 'px',
-              }}
+              alt="image"
+              height={itemWidth}
             />
           </li>
         ))}
