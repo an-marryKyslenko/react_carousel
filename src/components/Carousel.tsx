@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import './Carousel.scss';
 
 interface Props {
-  images: string[],
-  step: number,
-  frameSize: number,
-  itemWidth: number,
-  animationDuration: number,
-  infinite: boolean
+  images: string[];
+  step: number;
+  frameSize: number;
+  itemWidth: number;
+  animationDuration: number;
+  infinite: boolean;
 }
 const Carousel: React.FC<Props> = ({
   images,
@@ -17,59 +17,70 @@ const Carousel: React.FC<Props> = ({
   animationDuration = 1000,
   infinite = false,
 }) => {
-  const [carrentIndex, setCarrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   function handlePrev() {
-    setCarrentIndex(prev => infinite
-      ? (prev - step + images.length) % images.length
-      : (prev - step <= 0) ? 0 : prev - step
-    )
+    setCurrentIndex(prev =>
+      infinite
+        ? (prev - step + images.length) % images.length
+        : prev - step < 0
+          ? 0
+          : prev - step,
+    );
   }
 
   function handleNext() {
-    setCarrentIndex(prev => infinite
-      ? (prev + step) % images.length
-      : (images.length - prev < step) ? prev : prev + step
+    setCurrentIndex(prev =>
+      infinite
+        ? (prev + step) % images.length
+        : images.length - prev <= step
+          ? prev
+          : prev + step,
     );
   }
 
   return (
-  <div
-    className="Carousel"
-    style={{
-      maxWidth: `${itemWidth * frameSize}px`,
-    }}
-    >
-    <ul
-      className="Carousel__list"
+    <div
+      className="Carousel"
       style={{
-        transitionDuration: `${animationDuration}ms`,
-        transform: `translateX(-${(100 / frameSize) * carrentIndex}%)`
+        maxWidth: `${itemWidth * frameSize}px`,
       }}
     >
-      {images.map(imagePath => (
-        <li
-        key={imagePath}
+      <ul
+        className="Carousel__list"
         style={{
-          width: itemWidth + 'px',
-          height: itemWidth + 'px',
+          transitionDuration: `${animationDuration}ms`,
+          transform: `translateX(-${(100 / frameSize) * currentIndex}%)`,
         }}
-        >
-          <img
-          src={imagePath}
-          alt="image "
-          style={{
-            width: itemWidth + 'px',
-            height: itemWidth + 'px',
-          }}
-          />
-        </li>
-      ))}
-    </ul>
+      >
+        {images.map(imagePath => (
+          <li
+            key={imagePath}
+            style={{
+              width: itemWidth + 'px',
+              height: itemWidth + 'px',
+            }}
+          >
+            <img
+              src={imagePath}
+              alt="image "
+              style={{
+                width: itemWidth + 'px',
+                height: itemWidth + 'px',
+              }}
+            />
+          </li>
+        ))}
+      </ul>
 
-    <button type="button" onClick={handlePrev}>Prev</button>
-    <button data-cy="next" type="button" onClick={handleNext}>Next</button>
-  </div>
-)};
+      <button type="button" onClick={handlePrev}>
+        Prev
+      </button>
+      <button data-cy="next" type="button" onClick={handleNext}>
+        Next
+      </button>
+    </div>
+  );
+};
 
 export default Carousel;

@@ -3,13 +3,13 @@ import './App.scss';
 import Carousel from './components/Carousel';
 
 interface Parameters {
-  frameSize: number,
-  infinite: boolean,
-  step: number,
-  itemWidth: number,
-  animationDuration: number
+  frameSize: number;
+  infinite: boolean;
+  step: number;
+  itemWidth: number;
+  animationDuration: number;
 }
-const images :string[] = [
+const images: string[] = [
   './img/1.png',
   './img/2.png',
   './img/3.png',
@@ -22,20 +22,19 @@ const images :string[] = [
   './img/10.png',
 ];
 
-
-function App () {
+function App() {
   const [parameters, setParameters] = useState<Parameters>({
     frameSize: 3,
     infinite: false,
     step: 3,
     itemWidth: 130,
-    animationDuration: 1000
-  })
+    animationDuration: 1000,
+  });
 
-  function handleParameters (e: ChangeEvent<HTMLInputElement>) {
-    setParameters(prev =>({...prev, [e.target.id]: e.target.value}))
+  function handleParameters(e: ChangeEvent<HTMLInputElement>) {
+    setParameters(prev => ({ ...prev, [e.target.id]: parseInt(e.target.value) }));
   }
-  
+
   return (
     <div className="App">
       {/* eslint-disable-next-line */}
@@ -52,12 +51,32 @@ function App () {
 
       <div>
         <label htmlFor="itemWidth">
-          <input type="number" placeholder='itemWidth' id='itemWidth' onChange={handleParameters}/>
           Image Width
+          <input
+            type="number"
+            placeholder="itemWidth"
+            id="itemWidth"
+            onChange={handleParameters}
+          />
         </label>
-        <input type="number" placeholder='frameSize' id='frameSize'/>
-        <input type="number" placeholder='step' id='step'/>
-        <input type="text" placeholder='animationDuration' id='fnimationDuration'/>
+        <input
+          type="number"
+          placeholder="frameSize"
+          id="frameSize"
+          onChange={handleParameters}
+        />
+        <input
+          type="number"
+          placeholder="step"
+          id="step"
+          onChange={handleParameters}
+        />
+        <input
+          type="text"
+          placeholder="animationDuration"
+          id="animationDuration"
+          onChange={handleParameters}
+        />
         <input
           type="checkbox"
           name="infinite"
@@ -69,6 +88,5 @@ function App () {
     </div>
   );
 }
-
 
 export default App;
